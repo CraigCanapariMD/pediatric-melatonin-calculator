@@ -131,16 +131,16 @@ See [LICENSE][3] for full details.
 If you use this calculator in academic work, please cite:
 
 ```
-Canapari, C. (2025). Pediatric Melatonin Dosing Calculator [Computer software]. 
+Canapari, C. (2026). Pediatric Melatonin Dosing Calculator [Computer software]. 
 https://github.com/CraigCanapariMD/pediatric-melatonin-calculator
 ```
 
 **BibTeX:**
 ```bibtex
-@software{canapari2025melatonin,
+@software{canapari2026melatonin,
   author = {Canapari, Craig},
   title = {Pediatric Melatonin Dosing Calculator},
-  year = {2025},
+  year = {2026},
   url = {https://github.com/[YOUR_USERNAME]/pediatric-melatonin-calculator},
   note = {Based on 2025 IPSA consensus guidelines}
 }
