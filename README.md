@@ -4,7 +4,8 @@
 
 A free, open-source, evidence-based melatonin dosing calculator for children. Built for parents, pediatricians, and sleep consultants.
 
-![Calculator Screenshot][image-2]
+![Calculator Screenshot]
+<img width="520" height="949" alt="melatonin_calculator_screenshot" src="https://github.com/user-attachments/assets/b2fe4f12-9de4-446d-8ade-bf86d8a38223" />
 
 ## Features
 
