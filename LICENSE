@@ -1,0 +1,82 @@
+# License
+
+## Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+
+Copyright (c) 2025 Craig Canapari, MD
+
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+
+### You are free to:
+
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material
+
+### Under the following terms:
+
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+- **NonCommercial** — You may not use the material for commercial purposes.
+
+### Full license text:
+
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+---
+
+## Attribution Requirements
+
+When using this calculator, you must include the following attribution:
+
+**For websites/apps:**
+```
+Pediatric Melatonin Dosing Calculator by Craig Canapari, MD
+https://drcraigcanapari.com
+Licensed under CC BY-NC 4.0
+```
+
+**For academic citations:**
+```
+Canapari, C. (2025). Pediatric Melatonin Dosing Calculator [Computer software]. 
+https://github.com/CraigCanapariMD/pediatric-melatonin-calculator
+```
+
+**BibTeX:**
+```bibtex
+@software{canapari2025melatonin,
+  author = {Canapari, Craig},
+  title = {Pediatric Melatonin Dosing Calculator},
+  year = {2025},
+  url = {https://github.com/[YOUR_USERNAME]/pediatric-melatonin-calculator},
+  note = {Based on 2025 IPSA consensus guidelines}
+}
+```
+
+---
+
+## Commercial Licensing
+
+This calculator is free for:
+- Personal use by parents and families
+- Academic and educational use
+- Use by nonprofit organizations
+- Use by individual healthcare providers in clinical practice
+
+**Commercial use requires a separate license.** This includes but is not limited to:
+- Incorporation into commercial software or apps
+- Use by for-profit healthcare companies or hospital systems
+- Use in paid products or services
+- Resale or redistribution for profit
+
+For commercial licensing inquiries, contact:
+
+**Craig Canapari, MD**  
+Email: Craig@drcraigcanapari.com
+Website: https://drcraigcanapari.com/speaking-and-consulting/
+
+---
+
+## Medical Disclaimer
+
+This calculator provides general guidance only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions regarding a medical condition or treatment.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

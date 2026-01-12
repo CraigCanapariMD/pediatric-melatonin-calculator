@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pediatric Melatonin Dosing Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1E73BE;
+            --primary-hover: #165B9A;
+            --primary-light: #e8f1f9;
+            --warning-color: #c9553d;
+            --warning-bg: #fdf2f0;
+            --warning-border: #f5d5cf;
+            --info-color: #1E73BE;
+            --info-bg: #f0f6fd;
+            --info-border: #cfdff5;
+            --success-color: #2d8a4e;
+            --success-bg: #f0fdf4;
+            --success-border: #bbf7d0;
+            --text-color: #1a1a1a;
+            --text-muted: #555555;
+            --border-color: #e0e0e0;
+            --bg-color: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f8f9fb 0%, #eef2f7 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .calculator-container {
+            max-width: 580px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .calculator-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: white;
+            padding: 28px 32px;
+            text-align: center;
+        }
+
+        .calculator-header h1 {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .calculator-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .calculator-body {
+            padding: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
+            display: block;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .input-group select {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 115, 190, 0.15);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--primary-light);
+            border-radius: var(--border-radius);
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .checkbox-group:hover {
+            background: #dce8f3;
+        }
+
+        .checkbox-group.checked {
+            border-color: var(--primary-color);
+            background: #dce8f3;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-top: 2px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label {
+            font-size: 0.95rem;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .checkbox-label strong {
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .checkbox-label .subtext {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px 24px;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 115, 190, 0.3);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 28px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            padding: 20px 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 16px;
+        }
+
+        .result-card.success {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+        }
+
+        .result-card.warning {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+        }
+
+        .result-card.info {
+            background: var(--info-bg);
+            border: 1px solid var(--info-border);
+        }
+
+        .result-card h3 {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .result-card.success h3 { color: var(--success-color); }
+        .result-card.warning h3 { color: var(--warning-color); }
+        .result-card.info h3 { color: var(--info-color); }
+
+        .result-card p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .result-card .dose {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--success-color);
+            display: block;
+            margin: 4px 0;
+        }
+
+        .result-card ul {
+            margin: 8px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .result-card li {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            color: var(--text-muted);
+        }
+
+        .disclaimer {
+            margin-top: 24px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .disclaimer p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .disclaimer p strong {
+            color: var(--text-color);
+            font-style: normal;
+        }
+
+        .references {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .references h4 {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .references ol {
+            padding-left: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .references li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .calculator-header {
+                padding: 24px 20px;
+            }
+
+            .calculator-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .calculator-body {
+                padding: 24px 20px;
+            }
+
+            .result-card .dose {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1>Pediatric Melatonin Dosing Calculator</h1>
+            <p>Evidence-based guidelines for sleep onset insomnia</p>
+        </div>
+        
+        <div class="calculator-body">
+            <div class="input-group">
+                <label for="age">Child's Age</label>
+                <select id="age">
+                    <option value="">Select age...</option>
+                    <option value="0">Under 2 years</option>
+                    <option value="2">2 years</option>
+                    <option value="3">3 years</option>
+                    <option value="4">4 years</option>
+                    <option value="5">5 years</option>
+                    <option value="6">6 years</option>
+                    <option value="7">7 years</option>
+                    <option value="8">8 years</option>
+                    <option value="9">9 years</option>
+                    <option value="10">10 years</option>
+                    <option value="11">11+ years (adolescent)</option>
+                </select>
+            </div>
+
+            <div class="checkbox-group" id="asdGroup">
+                <input type="checkbox" id="asd">
+                <div class="checkbox-label">
+                    <strong>My child has been diagnosed with autism spectrum disorder (ASD)</strong>
+                    <span class="subtext">Dosing recommendations may differ for children with ASD</span>
+                </div>
+            </div>
+
+            <button class="calculate-btn" id="calcBtn">Calculate Recommended Dose</button>
+
+            <div class="results" id="results"></div>
+
+            <div class="disclaimer">
+                <p><strong>Important:</strong> This calculator provides general guidance only. Melatonin should be used only with the recommendation of and supervision from a medical provider.</p>
+                <p style="margin-top: 12px;"><strong>Behavioral interventions should come first.</strong> Melatonin is not a substitute for good sleep habits. Address sleep hygiene, bedtime routines, and behavioral strategies before starting melatonin—and continue them while using it. <a href="https://drcraigcanapari.com/sleep-training/" target="_blank" style="color: var(--primary-color);">Learn about sleep training methods</a></p>
+                <p style="margin-top: 12px;"><strong>Intermittent use is preferred over daily use.</strong> When possible, use melatonin on an as-needed basis rather than every night. This reduces the risk of dependence and helps maintain its effectiveness.</p>
+            </div>
+
+            <div class="references">
+                <h4>References</h4>
+                <ol>
+                    <li>Owens J, et al. IPSA Expert Consensus Recommendations. <em>Sleep Medicine</em>. 2025;128:127-129.</li>
+                    <li>Bruni O, et al. Clinical recommendations. <em>Eur J Paediatr Neurol</em>. 2015;19(2):122-133.</li>
+                    <li>Edemann-Callesen H, et al. Systematic review. <em>EClinicalMedicine</em>. 2023;61:102048.</li>
+                    <li>Williams Buckley A, et al. ASD Practice guideline. <em>Neurology</em>. 2020;94(9):392-404.</li>
+                </ol>
+            </div>
+
+            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: 0.75rem; color: var(--text-muted); text-align: center;">
+                <p>Pediatric Melatonin Dosing Calculator by <a href="https://drcraigcanapari.com" target="_blank" style="color: var(--primary-color);">Craig Canapari, MD</a></p>
+                <p style="margin-top: 4px;">Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" style="color: var(--primary-color);">CC BY-NC 4.0</a> — Free for non-commercial use with attribution</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            var asdGroup = document.getElementById('asdGroup');
+            var asdCheckbox = document.getElementById('asd');
+            var calcBtn = document.getElementById('calcBtn');
+
+            function updateCheckboxStyle() {
+                if (asdCheckbox.checked) {
+                    asdGroup.classList.add('checked');
+                } else {
+                    asdGroup.classList.remove('checked');
+                }
+            }
+
+            asdGroup.addEventListener('click', function(e) {
+                if (e.target.type !== 'checkbox') {
+                    asdCheckbox.checked = !asdCheckbox.checked;
+                }
+                updateCheckboxStyle();
+            });
+
+            asdCheckbox.addEventListener('change', updateCheckboxStyle);
+
+            calcBtn.addEventListener('click', calculateDose);
+
+            function calculateDose() {
+                var ageSelect = document.getElementById('age');
+                var age = ageSelect.value;
+                var hasASD = asdCheckbox.checked;
+                var resultsDiv = document.getElementById('results');
+
+                if (age === '') {
+                    resultsDiv.innerHTML = '<div class="result-card warning">' +
+                        '<h3>Please Select Age</h3>' +
+                        '<p>Choose your child\'s age from the dropdown to see dosing recommendations.</p>' +
+                        '</div>';
+                    resultsDiv.classList.add('show');
+                    return;
+                }
+
+                var html = '';
+
+                if (age === '0') {
+                    html = '<div class="result-card warning">' +
+                        '<h3>Not Recommended</h3>' +
+                        '<p><strong>Melatonin is NOT recommended for children under 2 years of age.</strong></p>' +
+                        '<p style="margin-top: 12px;">Sleep problems in this age group are almost always behavioral and should be addressed with behavioral interventions. Please discuss sleep training strategies with your child\'s pediatrician.</p>' +
+                        '</div>';
+                } 
+                else if (hasASD) {
+                    var maxDose = '';
+                    var ageGroup = '';
+                    var ageNum = parseInt(age);
+
+                    if (ageNum >= 2 && ageNum <= 3) {
+                        maxDose = '1 mg';
+                        ageGroup = 'Ages 2–3';
+                    } else if (ageNum >= 4 && ageNum <= 5) {
+                        maxDose = '2 mg';
+                        ageGroup = 'Ages 4–5';
+                    } else if (ageNum >= 6 && ageNum <= 10) {
+                        maxDose = '3 mg';
+                        ageGroup = 'Ages 6–10';
+                    } else {
+                        maxDose = '5 mg';
+                        ageGroup = 'Adolescents (11+)';
+                    }
+
+                    html = '<div class="result-card success">' +
+                        '<h3>Recommended Starting Dosing — ' + ageGroup + '</h3>' +
+                        '<p><strong>Starting dose:</strong></p>' +
+                        '<span class="dose">0.5 mg</span>' +
+                        '<p style="margin-top: 8px;"><strong>Initial maximum dose:</strong></p>' +
+                        '<span class="dose">' + maxDose + '</span>' +
+                        '<ul>' +
+                        '<li>Give 30–60 minutes before desired bedtime</li>' +
+                        '<li>Increase by no more than 1 mg per week until effective</li>' +
+                        '<li>If no effect at maximum dose, discontinue</li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '<div class="result-card info">' +
+                        '<h3>Autism Spectrum Disorder — Additional Guidance</h3>' +
+                        '<p>We recommend starting with the doses above, which are the same as for typically developing children. Many children with ASD respond well at these doses.</p>' +
+                        '<p style="margin-top: 12px;"><strong>If the maximum dose for age is ineffective:</strong> Research supports total daily doses up to <strong>10 mg</strong> in children with ASD (regardless of age or weight). This 10 mg ceiling includes <em>all</em> melatonin taken—both immediate-release and prolonged-release formulations combined.</p>' +
+                        '<ul style="margin-top: 12px;">' +
+                        '<li>Continue increasing by no more than 1 mg per week</li>' +
+                        '<li>Do not exceed 10 mg/day total from all sources</li>' +
+                        '<li><strong>Physician supervision is essential when exceeding the standard dose for age—do not increase beyond neurotypical dosing without direct guidance from your child\'s doctor</strong></li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '<div class="result-card info">' +
+                        '<h3>Signs the Dose May Be Too High</h3>' +
+                        '<p>Reduce the dose if you notice:</p>' +
+                        '<ul>' +
+                        '<li>Falls asleep easily but wakes during the night</li>' +
+                        '<li>Nightmares or vivid dreams</li>' +
+                        '<li>Morning drowsiness or daytime sleepiness</li>' +
+                        '<li>Headache, dizziness, or nausea</li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '<div class="result-card warning">' +
+                        '<h3>Important Reminders</h3>' +
+                        '<ul>' +
+                        '<li>Continue for at least 4 weeks before stopping</li>' +
+                        '<li>After 1–2 months of success, try discontinuing</li>' +
+                        '<li>Use USP-verified or pharmaceutical-grade melatonin</li>' +
+                        '<li><strong>Store safely out of reach of children</strong>—accidental melatonin ingestions have increased dramatically. <a href="https://drcraigcanapari.com/melatonin-overdoses" target="_blank" style="color: var(--primary-color);">Learn more about overdose risks</a></li>' +
+                        '</ul>' +
+                        '</div>';
+                }
+                else {
+                    var maxDose = '';
+                    var ageGroup = '';
+                    var ageNum = parseInt(age);
+
+                    if (ageNum >= 2 && ageNum <= 3) {
+                        maxDose = '1 mg';
+                        ageGroup = 'Ages 2–3';
+                    } else if (ageNum >= 4 && ageNum <= 5) {
+                        maxDose = '2 mg';
+                        ageGroup = 'Ages 4–5';
+                    } else if (ageNum >= 6 && ageNum <= 10) {
+                        maxDose = '3 mg';
+                        ageGroup = 'Ages 6–10';
+                    } else {
+                        maxDose = '5 mg';
+                        ageGroup = 'Adolescents (11+)';
+                    }
+
+                    html = '<div class="result-card success">' +
+                        '<h3>Recommended Dosing — ' + ageGroup + '</h3>' +
+                        '<p><strong>Starting dose:</strong></p>' +
+                        '<span class="dose">0.5 mg</span>' +
+                        '<p style="margin-top: 8px;"><strong>Maximum dose:</strong></p>' +
+                        '<span class="dose">' + maxDose + '</span>' +
+                        '<ul>' +
+                        '<li>Give 30–60 minutes before desired bedtime</li>' +
+                        '<li>Increase by no more than 1 mg per week until effective</li>' +
+                        '<li>If no effect at maximum dose, discontinue</li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '<div class="result-card info">' +
+                        '<h3>Signs the Dose May Be Too High</h3>' +
+                        '<p>Reduce the dose if you notice:</p>' +
+                        '<ul>' +
+                        '<li>Falls asleep easily but wakes during the night</li>' +
+                        '<li>Nightmares or vivid dreams</li>' +
+                        '<li>Morning drowsiness or daytime sleepiness</li>' +
+                        '<li>Headache, dizziness, or nausea</li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '<div class="result-card warning">' +
+                        '<h3>Important Reminders</h3>' +
+                        '<ul>' +
+                        '<li>Continue for at least 4 weeks before stopping</li>' +
+                        '<li>After 1–2 months of success, try discontinuing</li>' +
+                        '<li>Long-term use (beyond 3–6 months) requires physician consultation</li>' +
+                        '<li>Use USP-verified products for accurate dosing</li>' +
+                        '<li><strong>Store safely out of reach of children</strong>—accidental melatonin ingestions have increased dramatically. <a href="https://drcraigcanapari.com/melatonin-overdoses" target="_blank" style="color: var(--primary-color);">Learn more about overdose risks</a></li>' +
+                        '</ul>' +
+                        '</div>';
+                }
+
+                resultsDiv.innerHTML = html;
+                resultsDiv.classList.add('show');
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            document.getElementById('age').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateDose();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
